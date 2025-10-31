@@ -3,309 +3,322 @@
   <head>
     <meta charset="utf-8" />
     <style>
-        /* Loading Screen */
-        #loadingScreen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
+      /* Loading Screen */
+      #loadingScreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: opacity 0.8s ease, transform 0.8s ease;
+      }
 
-        #loadingScreen.fade-out {
-            opacity: 0;
-            transform: scale(1.1);
-            pointer-events: none;
-        }
+      #loadingScreen.fade-out {
+        opacity: 0;
+        transform: scale(1.1);
+        pointer-events: none;
+      }
 
-        .countdown-container {
-            text-align: center;
-            position: relative;
-        }
+      .countdown-container {
+        text-align: center;
+        position: relative;
+      }
 
-        /* Animated rings around countdown */
+      /* Animated rings around countdown */
+      .rings {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 400px;
+        height: 400px;
+      }
+
+      .ring {
+        position: absolute;
+        border: 2px solid rgba(247, 244, 190, 0.1);
+        border-radius: 50%;
+        animation: ripple 3s ease-out infinite;
+      }
+
+      .ring:nth-child(1) {
+        width: 100%;
+        height: 100%;
+        animation-delay: 0s;
+      }
+
+      .ring:nth-child(2) {
+        width: 80%;
+        height: 80%;
+        top: 10%;
+        left: 10%;
+        animation-delay: 1s;
+      }
+
+      .ring:nth-child(3) {
+        width: 60%;
+        height: 60%;
+        top: 20%;
+        left: 20%;
+        animation-delay: 2s;
+      }
+
+      @keyframes ripple {
+        0% {
+          transform: scale(0.8);
+          opacity: 0;
+        }
+        50% {
+          opacity: 0.3;
+        }
+        100% {
+          transform: scale(1.2);
+          opacity: 0;
+        }
+      }
+
+      .countdown {
+        font-size: 80px;
+        font-weight: 300;
+        color: #f7f4be;
+        position: relative;
+        z-index: 10;
+        line-height: 1;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        text-shadow: 0 0 60px rgba(247, 244, 190, 0.6),
+          0 0 100px rgba(247, 244, 190, 0.3);
+        min-height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+      }
+
+      .countdown span {
+        display: block;
+        animation: wordFade 1s ease-in-out forwards;
+      }
+
+      @keyframes wordFade {
+        0% {
+          opacity: 0;
+          transform: translateY(30px) scale(0.9);
+        }
+        25% {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+        75% {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-30px) scale(0.9);
+        }
+      }
+
+      .loading-text {
+        font-size: 16px;
+        font-weight: 300;
+        color: #f7f4be;
+        margin-top: 50px;
+        letter-spacing: 8px;
+        text-transform: uppercase;
+        opacity: 0.6;
+        animation: fadeInOut 2s ease-in-out infinite;
+        font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+      }
+
+      @keyframes fadeInOut {
+        0%,
+        100% {
+          opacity: 0.4;
+        }
+        50% {
+          opacity: 0.8;
+        }
+      }
+
+      /* Modern progress indicator */
+      .progress-container {
+        position: absolute;
+        bottom: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 400px;
+        max-width: 90%;
+      }
+
+      .progress-bar {
+        width: 100%;
+        height: 1px;
+        background: rgba(247, 244, 190, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: #f7f4be;
+        width: 0%;
+        animation: fillProgress 5s linear forwards;
+        box-shadow: 0 0 20px rgba(247, 244, 190, 0.8);
+      }
+
+      .progress-dots {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        margin-top: 30px;
+      }
+
+      .dot {
+        width: 6px;
+        height: 6px;
+        background: rgba(247, 244, 190, 0.2);
+        border-radius: 50%;
+        animation: dotPulse 1.5s ease-in-out infinite;
+      }
+
+      .dot:nth-child(1) {
+        animation-delay: 0s;
+      }
+      .dot:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .dot:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+      .dot:nth-child(4) {
+        animation-delay: 0.6s;
+      }
+      .dot:nth-child(5) {
+        animation-delay: 0.8s;
+      }
+
+      @keyframes dotPulse {
+        0%,
+        100% {
+          background: rgba(247, 244, 190, 0.2);
+          transform: scale(1);
+        }
+        50% {
+          background: #f7f4be;
+          transform: scale(1.5);
+        }
+      }
+
+      @keyframes fillProgress {
+        0% {
+          width: 0%;
+        }
+        100% {
+          width: 100%;
+        }
+      }
+
+      /* Mobile Responsive */
+      @media (max-width: 768px) {
         .rings {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 400px;
-            height: 400px;
-        }
-
-        .ring {
-            position: absolute;
-            border: 2px solid rgba(247, 244, 190, 0.1);
-            border-radius: 50%;
-            animation: ripple 3s ease-out infinite;
-        }
-
-        .ring:nth-child(1) {
-            width: 100%;
-            height: 100%;
-            animation-delay: 0s;
-        }
-
-        .ring:nth-child(2) {
-            width: 80%;
-            height: 80%;
-            top: 10%;
-            left: 10%;
-            animation-delay: 1s;
-        }
-
-        .ring:nth-child(3) {
-            width: 60%;
-            height: 60%;
-            top: 20%;
-            left: 20%;
-            animation-delay: 2s;
-        }
-
-        @keyframes ripple {
-            0% {
-                transform: scale(0.8);
-                opacity: 0;
-            }
-            50% {
-                opacity: 0.3;
-            }
-            100% {
-                transform: scale(1.2);
-                opacity: 0;
-            }
+          width: 280px;
+          height: 280px;
         }
 
         .countdown {
-            font-size: 80px;
-            font-weight: 300;
-            color: #F7F4BE;
-            position: relative;
-            z-index: 10;
-            line-height: 1;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            text-shadow: 
-                0 0 60px rgba(247, 244, 190, 0.6),
-                0 0 100px rgba(247, 244, 190, 0.3);
-            min-height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        }
-        
-        .countdown span {
-            display: block;
-            animation: wordFade 1s ease-in-out forwards;
-        }
-
-        @keyframes wordFade {
-            0% {
-                opacity: 0;
-                transform: translateY(30px) scale(0.9);
-            }
-            25% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-            75% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-30px) scale(0.9);
-            }
+          font-size: 56px;
+          letter-spacing: 2px;
+          min-height: 60px;
         }
 
         .loading-text {
-            font-size: 16px;
-            font-weight: 300;
-            color: #F7F4BE;
-            margin-top: 50px;
-            letter-spacing: 8px;
-            text-transform: uppercase;
-            opacity: 0.6;
-            animation: fadeInOut 2s ease-in-out infinite;
-            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+          font-size: 12px;
+          letter-spacing: 6px;
+          margin-top: 35px;
         }
 
-        @keyframes fadeInOut {
-            0%, 100% {
-                opacity: 0.4;
-            }
-            50% {
-                opacity: 0.8;
-            }
-        }
-
-        /* Modern progress indicator */
         .progress-container {
-            position: absolute;
-            bottom: 80px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 400px;
-            max-width: 90%;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 1px;
-            background: rgba(247, 244, 190, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: #F7F4BE;
-            width: 0%;
-            animation: fillProgress 5s linear forwards;
-            box-shadow: 0 0 20px rgba(247, 244, 190, 0.8);
+          bottom: 60px;
+          width: 280px;
         }
 
         .progress-dots {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-top: 30px;
+          gap: 10px;
+          margin-top: 25px;
         }
 
         .dot {
-            width: 6px;
-            height: 6px;
-            background: rgba(247, 244, 190, 0.2);
-            border-radius: 50%;
-            animation: dotPulse 1.5s ease-in-out infinite;
+          width: 5px;
+          height: 5px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .rings {
+          width: 220px;
+          height: 220px;
         }
 
-        .dot:nth-child(1) { animation-delay: 0s; }
-        .dot:nth-child(2) { animation-delay: 0.2s; }
-        .dot:nth-child(3) { animation-delay: 0.4s; }
-        .dot:nth-child(4) { animation-delay: 0.6s; }
-        .dot:nth-child(5) { animation-delay: 0.8s; }
-
-        @keyframes dotPulse {
-            0%, 100% {
-                background: rgba(247, 244, 190, 0.2);
-                transform: scale(1);
-            }
-            50% {
-                background: #F7F4BE;
-                transform: scale(1.5);
-            }
+        .countdown {
+          font-size: 42px;
+          letter-spacing: 1px;
+          min-height: 50px;
         }
 
-        @keyframes fillProgress {
-            0% {
-                width: 0%;
-            }
-            100% {
-                width: 100%;
-            }
+        .loading-text {
+          font-size: 10px;
+          letter-spacing: 4px;
+          margin-top: 30px;
         }
 
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .rings {
-                width: 280px;
-                height: 280px;
-            }
-
-            .countdown {
-                font-size: 56px;
-                letter-spacing: 2px;
-                min-height: 60px;
-            }
-
-            .loading-text {
-                font-size: 12px;
-                letter-spacing: 6px;
-                margin-top: 35px;
-            }
-
-            .progress-container {
-                bottom: 60px;
-                width: 280px;
-            }
-
-            .progress-dots {
-                gap: 10px;
-                margin-top: 25px;
-            }
-
-            .dot {
-                width: 5px;
-                height: 5px;
-            }
+        .progress-container {
+          bottom: 50px;
+          width: 220px;
         }
 
-        @media (max-width: 480px) {
-            .rings {
-                width: 220px;
-                height: 220px;
-            }
-
-            .countdown {
-                font-size: 42px;
-                letter-spacing: 1px;
-                min-height: 50px;
-            }
-
-            .loading-text {
-                font-size: 10px;
-                letter-spacing: 4px;
-                margin-top: 30px;
-            }
-
-            .progress-container {
-                bottom: 50px;
-                width: 220px;
-            }
-
-            .progress-dots {
-                gap: 8px;
-                margin-top: 20px;
-            }
-
-            .dot {
-                width: 4px;
-                height: 4px;
-            }
+        .progress-dots {
+          gap: 8px;
+          margin-top: 20px;
         }
 
-        @media (max-width: 360px) {
-            .rings {
-                width: 180px;
-                height: 180px;
-            }
-
-            .countdown {
-                font-size: 36px;
-                letter-spacing: 0px;
-                min-height: 45px;
-            }
-
-            .loading-text {
-                font-size: 9px;
-                letter-spacing: 3px;
-                margin-top: 25px;
-            }
-
-            .progress-container {
-                bottom: 40px;
-                width: 180px;
-            }
+        .dot {
+          width: 4px;
+          height: 4px;
         }
+      }
+
+      @media (max-width: 360px) {
+        .rings {
+          width: 180px;
+          height: 180px;
+        }
+
+        .countdown {
+          font-size: 36px;
+          letter-spacing: 0px;
+          min-height: 45px;
+        }
+
+        .loading-text {
+          font-size: 9px;
+          letter-spacing: 3px;
+          margin-top: 25px;
+        }
+
+        .progress-container {
+          bottom: 40px;
+          width: 180px;
+        }
+      }
     </style>
     <!-- Start of headStart -->
 
@@ -1133,10 +1146,7 @@
     <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
     <meta name="robots" content="max-image-preview:large" />
     <link rel="canonical" href="https://md-tarek.vercel.app/" />
-    <meta
-      property="og:url"
-      content="https://md-tarek.vercel.app/"
-    />
+    <meta property="og:url" content="https://md-tarek.vercel.app/" />
     <style data-framer-breakpoint-css>
       @media (min-width: 1200px) {
         .hidden-72rtr7 {
@@ -10462,30 +10472,30 @@
       data-no-nt
     ></script>
     <!-- Start of bodyStart -->
-   <!-- Loading Screen -->
+    <!-- Loading Screen -->
     <div id="loadingScreen">
-        <div class="countdown-container">
-            <div class="rings">
-                <div class="ring"></div>
-                <div class="ring"></div>
-                <div class="ring"></div>
-            </div>
-            <div class="countdown" id="countdown"><span>Dream</span></div>
-            <div class="loading-text">Loading</div>
+      <div class="countdown-container">
+        <div class="rings">
+          <div class="ring"></div>
+          <div class="ring"></div>
+          <div class="ring"></div>
         </div>
-        
-        <div class="progress-container">
-            <div class="progress-bar">
-                <div class="progress-fill"></div>
-            </div>
-            <div class="progress-dots">
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
-            </div>
+        <div class="countdown" id="countdown"><span>Dream</span></div>
+        <div class="loading-text">Loading</div>
+      </div>
+
+      <div class="progress-container">
+        <div class="progress-bar">
+          <div class="progress-fill"></div>
         </div>
+        <div class="progress-dots">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+      </div>
     </div>
     <!-- End of bodyStart -->
     <div
@@ -44879,38 +44889,38 @@
       <div id="template-overlay"></div>
       <!--/$-->
     </div>
- <script>
-        const loadingScreen = document.getElementById('loadingScreen');
-        
-        // Check if user has already visited
-        const hasVisited = sessionStorage.getItem('hasVisitedBefore');
-        
-        if (hasVisited) {
-            // Hide loading screen immediately if already visited
-            loadingScreen.style.display = 'none';
-        } else {
-            // Show loading animation for first-time visitors
-            const words = ['Dream', 'Passion', 'Motivation', 'Hardwork', 'Success'];
-            let currentIndex = 0;
-            const countdownElement = document.getElementById('countdown');
+    <script>
+      const loadingScreen = document.getElementById("loadingScreen");
 
-            const interval = setInterval(() => {
-                currentIndex++;
-                if (currentIndex < words.length) {
-                    countdownElement.innerHTML = `<span>${words[currentIndex]}</span>`;
-                } else {
-                    clearInterval(interval);
-                    setTimeout(() => {
-                        loadingScreen.classList.add('fade-out');
-                        setTimeout(() => {
-                            loadingScreen.style.display = 'none';
-                            // Mark that user has visited
-                            sessionStorage.setItem('hasVisitedBefore', 'true');
-                        }, 800);
-                    }, 200);
-                }
-            }, 1000);
-        }
+      // Check if user has already visited
+      const hasVisited = sessionStorage.getItem("hasVisitedBefore");
+
+      if (hasVisited) {
+        // Hide loading screen immediately if already visited
+        loadingScreen.style.display = "none";
+      } else {
+        // Show loading animation for first-time visitors
+        const words = ["Dream", "Passion", "Motivation", "Hardwork", "Success"];
+        let currentIndex = 0;
+        const countdownElement = document.getElementById("countdown");
+
+        const interval = setInterval(() => {
+          currentIndex++;
+          if (currentIndex < words.length) {
+            countdownElement.innerHTML = `<span>${words[currentIndex]}</span>`;
+          } else {
+            clearInterval(interval);
+            setTimeout(() => {
+              loadingScreen.classList.add("fade-out");
+              setTimeout(() => {
+                loadingScreen.style.display = "none";
+                // Mark that user has visited
+                sessionStorage.setItem("hasVisitedBefore", "true");
+              }, 800);
+            }, 200);
+          }
+        }, 1000);
+      }
     </script>
     <script>
       (() => {
@@ -45898,7 +45908,7 @@
         }
         function u(e, t, o) {
           let a = e[t];
-          if (typeof a !== "u"){
+          if (typeof a !== "u") {
             return a;
           }
           let c = o();
@@ -46108,7 +46118,5 @@
       fetchpriority="low"
       src="https://framerusercontent.com/sites/4si80iY2q8r6e6WyLKOtAL/script_main.DPR5aPI_.mjs"
     ></script>
-   
-
   </body>
 </html>
