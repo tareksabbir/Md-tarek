@@ -44889,38 +44889,26 @@
       <div id="template-overlay"></div>
       <!--/$-->
     </div>
-    <script>
-      const loadingScreen = document.getElementById("loadingScreen");
-
-      // Check if user has visited before
-      const hasVisited = localStorage.getItem("hasVisited");
-
-      if (!hasVisited) {
-        // First time visiting
-        localStorage.setItem("hasVisited", "true");
-
-        const words = ["Goals", "Passion", "Motivation", "Hardwork", "Success"];
+   <script>
+        const words = ['Goals ', 'Passion', 'Motivation', 'Hardwork', 'Success'];
         let currentIndex = 0;
-        const countdownElement = document.getElementById("countdown");
+        const countdownElement = document.getElementById('countdown');
+        const loadingScreen = document.getElementById('loadingScreen');
 
         const interval = setInterval(() => {
-          currentIndex++;
-          if (currentIndex < words.length) {
-            countdownElement.innerHTML = `<span>${words[currentIndex]}</span>`;
-          } else {
-            clearInterval(interval);
-            setTimeout(() => {
-              loadingScreen.classList.add("fade-out");
-              setTimeout(() => {
-                loadingScreen.style.display = "none";
-              }, 800);
-            }, 200);
-          }
+            currentIndex++;
+            if (currentIndex < words.length) {
+                countdownElement.innerHTML = `<span>${words[currentIndex]}</span>`;
+            } else {
+                clearInterval(interval);
+                setTimeout(() => {
+                    loadingScreen.classList.add('fade-out');
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                    }, 800);
+                }, 200);
+            }
         }, 1000);
-      } else {
-        // Not first visit, hide loading screen immediately
-        loadingScreen.style.display = "none";
-      }
     </script>
 
     <script>
