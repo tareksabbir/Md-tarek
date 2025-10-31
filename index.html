@@ -1216,21 +1216,7 @@
         --token-afaa24cb-dc08-4c5f-bb8b-ec5f6107577a: #f7f4be;
         --token-6044becf-47e8-4e55-aff1-5bae609b0164: #f7f4be33;
       }
-      @supports (z-index: calc(infinity)) {
-        #__framer-badge-container {
-          --infinity: infinity;
-        }
-      }
-      #__framer-badge-container {
-        pointer-events: none;
-        width: 100%;
-        z-index: calc(var(--infinity, 2147480000));
-        justify-content: flex-end;
-        padding: 20px;
-        display: flex;
-        position: fixed;
-        bottom: 0;
-      }
+
       body {
         --framer-will-change-override: none;
       }
@@ -44893,26 +44879,38 @@
       <div id="template-overlay"></div>
       <!--/$-->
     </div>
-      <script>
-        const words = ['Dream', 'Passion', 'Motivation', 'Hardwork', 'Success'];
-        let currentIndex = 0;
-        const countdownElement = document.getElementById('countdown');
+ <script>
         const loadingScreen = document.getElementById('loadingScreen');
+        
+        // Check if user has already visited
+        const hasVisited = sessionStorage.getItem('hasVisitedBefore');
+        
+        if (hasVisited) {
+            // Hide loading screen immediately if already visited
+            loadingScreen.style.display = 'none';
+        } else {
+            // Show loading animation for first-time visitors
+            const words = ['Dream', 'Passion', 'Motivation', 'Hardwork', 'Success'];
+            let currentIndex = 0;
+            const countdownElement = document.getElementById('countdown');
 
-        const interval = setInterval(() => {
-            currentIndex++;
-            if (currentIndex < words.length) {
-                countdownElement.innerHTML = `<span>${words[currentIndex]}</span>`;
-            } else {
-                clearInterval(interval);
-                setTimeout(() => {
-                    loadingScreen.classList.add('fade-out');
+            const interval = setInterval(() => {
+                currentIndex++;
+                if (currentIndex < words.length) {
+                    countdownElement.innerHTML = `<span>${words[currentIndex]}</span>`;
+                } else {
+                    clearInterval(interval);
                     setTimeout(() => {
-                        loadingScreen.style.display = 'none';
-                    }, 800);
-                }, 200);
-            }
-        }, 1000);
+                        loadingScreen.classList.add('fade-out');
+                        setTimeout(() => {
+                            loadingScreen.style.display = 'none';
+                            // Mark that user has visited
+                            sessionStorage.setItem('hasVisitedBefore', 'true');
+                        }, 800);
+                    }, 200);
+                }
+            }, 1000);
+        }
     </script>
     <script>
       (() => {
