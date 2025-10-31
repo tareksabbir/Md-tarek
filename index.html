@@ -44892,14 +44892,14 @@
     <script>
       const loadingScreen = document.getElementById("loadingScreen");
 
-      // Check if user has already visited
-      const hasVisited = sessionStorage.getItem("hasVisitedBefore");
+      // Check if user has already seen the loading screen in this session
+      const hasSeenLoading = sessionStorage.getItem("loadingShown");
 
-      if (hasVisited) {
-        // Hide loading screen immediately if already visited
+      if (hasSeenLoading) {
+        // Hide loading screen immediately
         loadingScreen.style.display = "none";
       } else {
-        // Show loading animation for first-time visitors
+        // Show loading animation for first time
         const words = ["Dream", "Passion", "Motivation", "Hardwork", "Success"];
         let currentIndex = 0;
         const countdownElement = document.getElementById("countdown");
@@ -44914,8 +44914,8 @@
               loadingScreen.classList.add("fade-out");
               setTimeout(() => {
                 loadingScreen.style.display = "none";
-                // Mark that user has visited
-                sessionStorage.setItem("hasVisitedBefore", "true");
+                // Mark that loading has been shown
+                sessionStorage.setItem("loadingShown", "true");
               }, 800);
             }, 200);
           }
